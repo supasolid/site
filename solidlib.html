@@ -151,8 +151,6 @@
 </div>
 
 <script>
-// each section just reads straight from a public GitHub repo now,
-// so there's no upload button and nothing to protect with a password
 var GAMES = {
   rhythia: { name: "Rhythia Maps", ext: ".sspm", repo: "supasolid/rhythia-maps", itemName: "maps" },
   soundspace: { name: "Sound Space Maps", ext: ".txt", repo: "supasolid/sound-space-customs", itemName: "maps" },
@@ -198,7 +196,6 @@ function goBack() {
   closePreview();
 }
 
-// pulls the file list straight from the GitHub repo for this section
 async function loadMaps() {
   var repo = GAMES[currentGame].repo;
   var ext = GAMES[currentGame].ext;
@@ -208,8 +205,6 @@ async function loadMaps() {
     var res = await fetch("https://api.github.com/repos/" + repo + "/contents/");
     var data = await res.json();
     if (!Array.isArray(data)) {
-      // GitHub sends back an error object instead of a file list when
-      // something's wrong (repo missing, rate limited, etc)
       throw new Error(data.message || "GitHub API error");
     }
     maps = [];
@@ -343,8 +338,6 @@ async function downloadZip(ids) {
   }
 }
 
-// looks through a colorset .txt file for anything that looks like a
-// color (hex codes or r,g,b triples) and returns a list of them
 function parseColorsFromText(text) {
   var colors = [];
   var lines = text.split("\n");
@@ -412,7 +405,6 @@ async function previewSelectedColorset() {
     if (colors.length === 0) {
       html += "<p>No colors found in this file.</p>";
     } else {
-      // arrange the colors into a grid that's as close to square as possible
       var cols = Math.ceil(Math.sqrt(colors.length));
       var rows = Math.ceil(colors.length / cols);
       html += "<div class='colorGrid' style='grid-template-columns: repeat(" + cols + ", 1fr); grid-template-rows: repeat(" + rows + ", 1fr);'>";
